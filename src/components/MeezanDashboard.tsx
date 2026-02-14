@@ -271,7 +271,7 @@ const MeezanDashboard = () => {
         <div className="flex justify-between items-center mb-2">
            <div className="flex items-center gap-3">
               <img 
-                src="/favicon.svg" 
+                src="./favicon.svg" 
                 alt="mznviz" 
                 className="w-10 h-10"
               />
@@ -539,7 +539,7 @@ const MeezanDashboard = () => {
             <div className="relative z-10 w-full max-w-sm text-center space-y-10 px-6">
               <div className="space-y-4">
                 <img 
-                  src="/favicon.svg" 
+                  src="./favicon.svg" 
                   alt="mznviz" 
                   className="w-20 h-20 mx-auto"
                 />
