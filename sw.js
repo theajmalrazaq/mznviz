@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meezan-v3';
+const CACHE_NAME = 'meezan-v4';
 const ASSETS = [
   './',
   './index.html',
