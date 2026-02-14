@@ -25,8 +25,7 @@ import {
   Trash2,
   Upload,
   Sun,
-  Moon,
-  Activity
+  Moon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
