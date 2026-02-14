@@ -16,7 +16,6 @@ import {
   ArrowUpRight,
   ArrowDownLeft,
   Search,
-  Plus,
   ShoppingBag,
   CreditCard,
   Wallet,
@@ -81,7 +80,13 @@ const MeezanDashboard = () => {
 
   // Handle system file launch (PWA File Handling)
   useEffect(() => {
-    if ('launchQueue' in window) {
+    // Robust feature detection for File Handling API
+    const isFileHandlingSupported = 
+      'launchQueue' in window && 
+      typeof (window as any).LaunchParams !== 'undefined' && 
+      'files' in (window as any).LaunchParams.prototype;
+
+    if (isFileHandlingSupported) {
       (window as any).launchQueue.setConsumer(async (launchParams: any) => {
         if (launchParams.files && launchParams.files.length > 0) {
           const file = await launchParams.files[0].getFile();
@@ -588,14 +593,6 @@ const MeezanDashboard = () => {
           </div>
         )}
       </div>
-
-      {/* Mobile Floating Action Button (Optional) */}
-      <button 
-         onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-         className="fixed bottom-8 right-8 w-14 h-14 bg-black text-white rounded-none flex items-center justify-center active:scale-90 transition-all z-50 md:hidden"
-      >
-         <Plus />
-      </button>
 
       {/* Transaction Detail Bottom Sheet */}
       {selectedTx && (
