@@ -2,13 +2,14 @@
   "name": "mznviz Finance",
   "short_name": "mznviz",
   "description": "Professional Meezan Bank Statement Visualizer",
-  "start_url": "/",
+  "start_url": "/mznviz/",
+  "scope": "/mznviz/",
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
   "icons": [
     {
-      "src": "/favicon.svg",
+      "src": "favicon.svg",
       "sizes": "32x32 48x48 96x96 144x144 192x192 512x512",
       "type": "image/svg+xml",
       "purpose": "any maskable"
@@ -16,7 +17,7 @@
   ],
   "file_handlers": [
     {
-      "action": "/",
+      "action": "/mznviz/",
       "accept": {
         "text/csv": [".csv"],
         "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"]
