@@ -1,4 +1,4 @@
-const CACHE_NAME = 'meezan-v1';
+const CACHE_NAME = 'meezan-v2';
 const ASSETS = [
   './',
   './index.html',
@@ -7,12 +7,26 @@ const ASSETS = [
 ];
 
 self.addEventListener('install', (event) => {
+  self.skipWaiting(); // Force update
   event.waitUntil(
     caches.open(CACHE_NAME).then((cache) => {
-      // Catch and log errors if any file fails to cache
       return Promise.all(
         ASSETS.map(url => {
-          return cache.add(url).catch(err => console.warn('Failed to cache:', url, err));
+          return cache.add(url).catch(err => console.warn('mznviz: Failed to cache:', url, err));
+        })
+      );
+    })
+  );
+});
+
+self.addEventListener('activate', (event) => {
+  event.waitUntil(
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames.map((cacheName) => {
+          if (cacheName !== CACHE_NAME) {
+            return caches.delete(cacheName);
+          }
         })
       );
     })
