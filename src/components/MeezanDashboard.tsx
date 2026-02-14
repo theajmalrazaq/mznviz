@@ -263,7 +263,7 @@ const MeezanDashboard = () => {
 
   return (
       <div className={cn(
-        "min-h-screen flex flex-col items-center py-4 md:py-8 px-3 md:px-6 pb-20 overflow-x-hidden no-scrollbar transition-colors duration-300",
+        "min-h-screen flex flex-col items-center py-4 md:py-8 px-4 md:px-6 pb-20 overflow-x-hidden no-scrollbar transition-colors duration-300",
         theme === 'light' ? "bg-[#F9FAFB] text-zinc-900" : "bg-zinc-950 text-zinc-100"
       )}>
         <div className="w-full max-w-4xl space-y-6 md:space-y-10">
