@@ -271,15 +271,11 @@ const MeezanDashboard = () => {
         {/* Top Actions & Logo */}
         <div className="flex justify-between items-center mb-2">
            <div className="flex items-center gap-3">
-              <div className={cn(
-                "w-10 h-10 rounded-none flex items-center justify-center -rotate-12 transition-all",
-                theme === 'light' ? "bg-black shadow-lg shadow-black/10" : "bg-white"
-              )}>
-                 <Activity className={cn(
-                   "w-6 h-6",
-                   theme === 'light' ? "text-white" : "text-black"
-                 )} />
-              </div>
+              <img 
+                src="/favicon.svg" 
+                alt="mznviz" 
+                className="w-10 h-10"
+              />
               <h2 className="text-xl font-bold tracking-tight lowercase">mznviz</h2>
            </div>
            <div className="flex gap-2">
@@ -543,12 +539,11 @@ const MeezanDashboard = () => {
           <div className="relative w-full flex flex-col items-center justify-center py-24 overflow-hidden min-h-[60vh]">
             <div className="relative z-10 w-full max-w-sm text-center space-y-10 px-6">
               <div className="space-y-4">
-                <div className={cn(
-                  "inline-flex p-3 rounded-none transition-all duration-500",
-                  theme === 'light' ? "bg-black text-white" : "bg-white text-black"
-                )}>
-                  <Activity size={28} />
-                </div>
+                <img 
+                  src="/favicon.svg" 
+                  alt="mznviz" 
+                  className="w-20 h-20 mx-auto"
+                />
                 <div className="space-y-1.5">
                   <h1 className={cn(
                     "text-3xl font-bold tracking-tight",
