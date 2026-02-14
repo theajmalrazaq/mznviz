@@ -8,6 +8,7 @@
   "display": "standalone",
   "background_color": "#000000",
   "theme_color": "#000000",
+  "categories": ["finance"],
   "orientation": "portrait",
   "icons": [
     {
@@ -38,13 +39,16 @@
   "file_handlers": [
     {
       "action": "/mznviz/",
+      "name": "Import to mznviz",
       "accept": {
         "text/csv": [".csv"],
         "text/comma-separated-values": [".csv"],
         "application/vnd.ms-excel": [".csv"],
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
-        "application/octet-stream": [".xlsx", ".csv"]
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"]
       }
     }
-  ]
+  ],
+  "launch_handler": {
+    "client_mode": "navigate-existing"
+  }
 }
