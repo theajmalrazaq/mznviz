@@ -29,29 +29,5 @@
       "type": "image/svg+xml",
       "purpose": "any"
     }
-  ],
-  "file_handlers": [
-    {
-      "action": "/mznviz/",
-      "name": "Meezan Statement",
-      "accept": {
-        "text/csv": [".csv"],
-        "text/comma-separated-values": [".csv"],
-        "application/vnd.ms-excel": [".csv", ".xlsx"],
-        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [".xlsx"],
-        "application/octet-stream": [".csv", ".xlsx"]
-      },
-      "icons": [
-        {
-          "src": "favicon.svg",
-          "sizes": "927x927",
-          "type": "image/svg+xml"
-        }
-      ],
-      "launch_type": "single-client"
-    }
-  ],
-  "launch_handler": {
-    "client_mode": "navigate-existing"
-  }
+  ]
 }

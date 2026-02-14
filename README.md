@@ -16,7 +16,6 @@
 - **🔍 Smart Search & Filters**: Quickly find transactions with real-time search and category filters
 - **📱 Progressive Web App**: Install on any device for a native app-like experience
 - **🎨 Dark/Light Mode**: Seamless theme switching for comfortable viewing
-- **📂 File Handling**: Open CSV and XLSX files directly from your device's file manager
 - **🔒 Privacy First**: All data processing happens locally—nothing ever leaves your device
 - **⚡ Lightning Fast**: Sub-millisecond compute with optimized performance
 - **📈 Smart Categorization**: Automatic transaction categorization with visual indicators
@@ -65,17 +64,9 @@ npm run deploy
 
 1. **Export your statement** from Meezan Bank as CSV or XLSX
 2. **Import in mznviz** using one of these methods:
-   - Click the **"Import your statement"** button
-   - Use the upload icon in the header
-   - **Open directly** from your file manager (PWA only)
+   - Click the **"Import your statement"** button on the welcome screen
+   - Use the upload icon in the header toolbar
 3. **Explore your data** with interactive charts, calendar views, and detailed transaction insights
-
-### File Handling (PWA)
-
-Once installed, mznviz registers as a system file handler for `.csv` and `.xlsx` files. Simply:
-- Tap any Meezan Bank statement file on your device
-- Select **"Meezan Statement"** (mznviz) from the "Open with" menu
-- The app launches automatically and imports your data
 
 ---
 

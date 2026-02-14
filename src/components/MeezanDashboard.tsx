@@ -63,6 +63,7 @@ const MeezanDashboard = () => {
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedTx, setSelectedTx] = useState<Transaction | null>(null);
+  const [showCalendar, setShowCalendar] = useState(false);
   const [theme, setTheme] = useState<'light' | 'dark'>(() => {
     const saved = localStorage.getItem('meezan_theme');
     return (saved === 'dark' ? 'dark' : 'light');
@@ -77,23 +78,7 @@ const MeezanDashboard = () => {
     document.documentElement.className = theme;
   }, [transactions, openingBalance, closingBalance, theme]);
 
-  // Handle system file launch (PWA File Handling)
-  useEffect(() => {
-    // Robust feature detection for File Handling API
-    const isFileHandlingSupported = 
-      'launchQueue' in window && 
-      typeof (window as any).LaunchParams !== 'undefined' && 
-      'files' in (window as any).LaunchParams.prototype;
 
-    if (isFileHandlingSupported) {
-      (window as any).launchQueue.setConsumer(async (launchParams: any) => {
-        if (launchParams.files && launchParams.files.length > 0) {
-          const file = await launchParams.files[0].getFile();
-          processFile(file);
-        }
-      });
-    }
-  }, []);
 
   const processFile = (file: File) => {
     const isXlsx = file.name.endsWith('.xlsx');
@@ -413,6 +398,14 @@ const MeezanDashboard = () => {
                            )}
                         >Expenses</button>
                         <button 
+                           onClick={() => setShowCalendar(true)}
+                           title="Open calendar"
+                           className={cn(
+                             "w-10 h-10 md:w-11 md:h-11 flex items-center justify-center border rounded-none text-xs font-black transition-all",
+                             theme === 'light' ? "bg-white text-zinc-400 border-zinc-100 hover:border-zinc-300" : "bg-zinc-900 text-zinc-500 border-zinc-800 hover:border-zinc-700"
+                           )}
+                        ><CalendarIcon size={16} className="md:w-5 md:h-5" /></button>
+                        <button 
                            onClick={() => {
                              setCurrentFilter('all');
                              setSelectedDate(null);
@@ -662,6 +655,127 @@ const MeezanDashboard = () => {
                 )}
               >
                 Done
+              </button>
+           </div>
+        </div>
+      )}
+
+      {/* Calendar Popup Modal */}
+      {showCalendar && (
+        <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+           <div 
+             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
+             onClick={() => setShowCalendar(false)}
+           />
+           <div className={cn(
+             "relative w-full max-w-md p-6 space-y-6 animate-in zoom-in-95 duration-200",
+             theme === 'light' ? "bg-white" : "bg-zinc-900 border border-zinc-800"
+           )}>
+              <div className="flex justify-between items-center">
+                 <h2 className={cn("text-xl font-black tracking-tight", theme === 'light' ? "text-zinc-900" : "text-white")}>
+                   Select Date
+                 </h2>
+                 <button 
+                   onClick={() => setShowCalendar(false)}
+                   className={cn("p-2", theme === 'light' ? "text-zinc-300 hover:text-zinc-900" : "text-zinc-600 hover:text-white")}
+                 >
+                   <X size={24} />
+                 </button>
+              </div>
+
+              {/* Month Navigator */}
+              <div className={cn(
+                "border rounded-none p-1.5 flex items-center justify-between transition-colors",
+                theme === 'light' ? "bg-white border-zinc-200" : "bg-zinc-900 border-zinc-800"
+              )}>
+                 <button onClick={() => setCurrentDate(prev => subMonths(prev, 1))} className={cn("p-2 rounded-none transition-all", theme === 'light' ? "hover:bg-zinc-50" : "hover:bg-zinc-800 text-zinc-400")}>
+                    <ChevronLeft size={20} />
+                 </button>
+                 <span className="px-4 text-sm font-black">{format(currentDate, 'MMMM yyyy')}</span>
+                 <button onClick={() => setCurrentDate(prev => addMonths(prev, 1))} className={cn("p-2 rounded-none transition-all", theme === 'light' ? "hover:bg-zinc-50" : "hover:bg-zinc-800 text-zinc-400")}>
+                    <ChevronRight size={20} />
+                 </button>
+              </div>
+
+              {/* Calendar Grid */}
+              <div className="space-y-2">
+                 {/* Day Headers */}
+                 <div className="grid grid-cols-7 gap-1">
+                   {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                     <div key={day} className={cn("text-center text-[10px] font-black py-2", theme === 'light' ? "text-zinc-400" : "text-zinc-500")}>
+                       {day}
+                     </div>
+                   ))}
+                 </div>
+
+                 {/* Calendar Days */}
+                 <div className="grid grid-cols-7 gap-1">
+                   {(() => {
+                     const start = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+                     const end = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+                     const startDay = start.getDay();
+                     const daysInMonth = end.getDate();
+                     const days = [];
+
+                     // Empty cells for days before month starts
+                     for (let i = 0; i < startDay; i++) {
+                       days.push(<div key={`empty-${i}`} />);
+                     }
+
+                     // Actual days
+                     for (let day = 1; day <= daysInMonth; day++) {
+                       const date = new Date(currentDate.getFullYear(), currentDate.getMonth(), day);
+                       const hasTransactions = transactions.some(t => isSameDay(t.date, date));
+                       const isSelected = selectedDate && isSameDay(date, selectedDate);
+                       const isTodayDate = isToday(date);
+
+                       days.push(
+                         <button
+                           key={day}
+                           onClick={() => {
+                             setSelectedDate(date);
+                             setShowCalendar(false);
+                           }}
+                           className={cn(
+                             "aspect-square flex items-center justify-center text-sm font-black transition-all relative",
+                             isSelected 
+                               ? (theme === 'light' ? "bg-black text-white" : "bg-white text-black")
+                               : isTodayDate
+                               ? (theme === 'light' ? "bg-indigo-50 text-indigo-600 border border-indigo-200" : "bg-indigo-900/40 text-indigo-400 border border-indigo-800")
+                               : hasTransactions
+                               ? (theme === 'light' ? "bg-zinc-50 text-zinc-900 hover:bg-zinc-100" : "bg-zinc-800 text-zinc-100 hover:bg-zinc-700")
+                               : (theme === 'light' ? "text-zinc-300 hover:bg-zinc-50" : "text-zinc-600 hover:bg-zinc-800")
+                           )}
+                         >
+                           {day}
+                           {hasTransactions && !isSelected && (
+                             <div className={cn(
+                               "absolute bottom-1 w-1 h-1 rounded-full",
+                               isTodayDate 
+                                 ? "bg-indigo-600" 
+                                 : (theme === 'light' ? "bg-zinc-400" : "bg-zinc-500")
+                             )} />
+                           )}
+                         </button>
+                       );
+                     }
+
+                     return days;
+                   })()}
+                 </div>
+              </div>
+
+              <button 
+                onClick={() => {
+                  setSelectedDate(null);
+                  setShowCalendar(false);
+                }}
+                className={cn(
+                  "w-full py-4 font-black text-xs tracking-widest uppercase transition-all",
+                  theme === 'light' ? "bg-zinc-100 text-zinc-600 hover:bg-zinc-200" : "bg-zinc-800 text-zinc-300 hover:bg-zinc-700"
+                )}
+              >
+                Clear Selection
               </button>
            </div>
         </div>
